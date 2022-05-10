@@ -1,0 +1,23 @@
+name: Julia application
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+jobs:
+  build-test:
+    runs-on: ${{ matrix.os }}
+    
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: julia-actions/setup-julia@v1
+      with:
+        version: ''
+    - name: Install packages
+      run: julia dep.jl
+    - name: run tests
+      run: julia test/runtests.jl
